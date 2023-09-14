@@ -1,0 +1,80 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>kargotakip</title>
+  <link rel="icon" type="favicon" sizes="32x32" href="{% static 'favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+
+  <style>
+    .navbar.fixed-top {
+      position: fixed;
+      top: 0;
+      width: 100%;
+    }
+  </style>
+
+</head>
+
+<body>
+  <!-- Menü Çubuğu -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{% url 'anasayfa' %}">
+        <img src="{% static 'img/logo.png' %}" alt="Logo" style="max-height: 100px; max-width: 200px;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          {% if user.is_authenticated %}
+            {% if UserRole == "baseadmin" or UserRole == "ADMIN" %}
+            <li class="nav-item">
+              <a id="anasayfa-btn" class="nav-link" href="{% url 'adminpaneli' %}">Admin Paneli</a>
+            </li>
+            {% elif UserRole == "COURIER" %}
+            <li class="nav-item">
+              <a id="anasayfa-btn" class="nav-link" href="{% url 'kuryepaneli' %}">Kurye Paneli</a>
+            </li>
+            {% elif UserRole == "CUSTOMER" %}
+            <li class="nav-item">
+              <a id="anasayfa-btn" class="nav-link" href="{% url 'kullanicipaneli' %}">Kullanıcı Sayfası</a>
+            </li>
+            {% endif %}
+          {% endif %}
+          <li class="nav-item">
+            <a id="anasayfa-btn" class="nav-link" href="{% url 'anasayfa' %}">Ana Sayfa</a>
+          </li>
+          <li class="nav-item">
+            <a id="hakkimizda-btn" class="nav-link" href="{% url 'hakkimizda' %}">Hakkımızda</a>
+          </li>
+          {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a id="kayitol-btn" class="nav-link" href="{% url 'logout' %}">Çıkış Yap</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a id="kayitol-btn" class="nav-link" href="{% url 'kayitol' %}">Kayıt Ol</a>
+          </li>
+          <li class="nav-item">
+            <a id="girisyap-btn" class="nav-link" href="{% url 'girisyap' %}">Giriş Yap</a>
+          </li>
+          {% endif %}
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>
